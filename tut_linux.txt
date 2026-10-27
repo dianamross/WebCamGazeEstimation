@@ -1,0 +1,20 @@
+as dependencias sempre dao erro depois de um tempo tenho que fazer um docker ou algo assim pra isso parar (ja tentei o docker e deu erro)
+
+passos que funcionaram para linux ubuntu:
+
+conda create --name gaze python=3.8
+conda activate gaze
+python -m pip install --upgrade pip
+
+Instalar o Miniconda (se ainda não tiver)
+bash
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+
+conda create --name gaze python=3.8 -y
+conda activate gaze
+python -m pip install --upgrade pip
+
+pip install openvino-dev==2023.3.0
+pip install -r requirements.txt
+

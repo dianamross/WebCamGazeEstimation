@@ -286,7 +286,9 @@ class HomTransform:
             return error.flatten()
         
         const = (SRotG, gaze, SetVal)
-        x0 = np.array([self.width/2, self.height/2, self.width])
+        #ESSA TEM QUE MUDAR ACHO o ultimo do array
+        x0 = np.array([self.width/2, self.height/2, 56.0])
+        #x0 = np.array([self.width/2, self.height/2, self.width])
         res = opt.least_squares(alignError, x0, args=const)
         print(f"res.optimality = {res.optimality}")
         xopt = res.x
