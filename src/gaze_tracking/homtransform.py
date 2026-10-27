@@ -218,7 +218,9 @@ class HomTransform:
         scaleGaze = self._getScale(gaze, self.STransG)
         Sgaze = (self.STransG @ np.vstack((scaleGaze*gaze[:,None], 1)))[:3]
 
-        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        # mudei aqui a matriz
+        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
         dist = np.inf            
         """ Compute STransG for all calibration points and choose the one with the smallest distance to the overall gaze point on screen """   
         for i in range(len(self.StG)):
@@ -268,7 +270,9 @@ class HomTransform:
         gaze = gaze.to_numpy()
         SetVal = SetVal.to_numpy() 
 
-        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        #mudei aqui tambem
+        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
         gaze = gaze[:,:,None]
 
         """ Without sfm """
@@ -310,7 +314,9 @@ class HomTransform:
         WRotG = WTransG[:,:3,:3]
         WtG = WTransG[:,:3,3]
         SRotW = np.array([[-1,0,0],[0,1,0],[0,0,-1]])
-        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        #mudei aqui
+        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
 
         gaze = gaze[:,:,None]
 
@@ -445,7 +451,10 @@ class HomTransform:
 
     def _WriteStatsInFile(self, STransG):
         """ Write stats in file """
-        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+
+        #mudei aqui tambem
+        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
         with open(os.path.join(self.dir, "results", 'stats.txt'), 'w') as f:
             f.write(f"Transformation matrices: \n")
             f.write(f"STransG1\n{np.array2string(np.vstack((np.hstack((SRotG,self.StG[0].reshape(3,1))), np.array([0,0,0,1]))), formatter={'float': lambda x: f'{x:.3f}'})}\n")
