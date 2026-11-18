@@ -218,9 +218,7 @@ class HomTransform:
         scaleGaze = self._getScale(gaze, self.STransG)
         Sgaze = (self.STransG @ np.vstack((scaleGaze*gaze[:,None], 1)))[:3]
 
-        # mudei aqui a matriz
-        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
-        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
         dist = np.inf            
         """ Compute STransG for all calibration points and choose the one with the smallest distance to the overall gaze point on screen """   
         for i in range(len(self.StG)):
@@ -270,9 +268,7 @@ class HomTransform:
         gaze = gaze.to_numpy()
         SetVal = SetVal.to_numpy() 
 
-        #mudei aqui tambem
-        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
-        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
         gaze = gaze[:,:,None]
 
         """ Without sfm """
@@ -284,11 +280,11 @@ class HomTransform:
             Sg = SRotG @ (mu*gaze) + StG
             error = SetVal[:,:,None] - Sg   # (87x3x1)
             return error.flatten()
-         
+        
         const = (SRotG, gaze, SetVal)
-        #ESSA TEM QUE MUDAR ACHO o ultimo do array
-        x0 = np.array([self.width/2, self.height/2, 20.0])
+        #mudar aqui o ultimo do array
         #x0 = np.array([self.width/2, self.height/2, self.width])
+        x0 = np.array([self.width/2, self.height/2, 20.0])
         res = opt.least_squares(alignError, x0, args=const)
         print(f"res.optimality = {res.optimality}")
         xopt = res.x
@@ -316,9 +312,7 @@ class HomTransform:
         WRotG = WTransG[:,:3,:3]
         WtG = WTransG[:,:3,3]
         SRotW = np.array([[-1,0,0],[0,1,0],[0,0,-1]])
-        #mudei aqui
-        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
-        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
 
         gaze = gaze[:,:,None]
 
@@ -453,10 +447,7 @@ class HomTransform:
 
     def _WriteStatsInFile(self, STransG):
         """ Write stats in file """
-
-        #mudei aqui tambem
-        #SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
-        SRotG = np.array([[-1,0,0],[0,1,0],[0,0,1]])
+        SRotG = np.array([[-1,0,0],[0,-1,0],[0,0,1]])
         with open(os.path.join(self.dir, "results", 'stats.txt'), 'w') as f:
             f.write(f"Transformation matrices: \n")
             f.write(f"STransG1\n{np.array2string(np.vstack((np.hstack((SRotG,self.StG[0].reshape(3,1))), np.array([0,0,0,1]))), formatter={'float': lambda x: f'{x:.3f}'})}\n")
